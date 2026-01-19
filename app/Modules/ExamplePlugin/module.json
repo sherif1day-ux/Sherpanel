@@ -1,0 +1,7 @@
+{
+    "name": "Example Plugin",
+    "slug": "example-plugin",
+    "version": "1.0.0",
+    "description": "An example plugin for SherPanel",
+    "author": "SherPanel Team"
+}
