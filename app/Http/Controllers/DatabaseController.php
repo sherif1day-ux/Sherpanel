@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Database;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class DatabaseController extends Controller
 {

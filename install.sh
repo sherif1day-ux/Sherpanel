@@ -84,22 +84,28 @@ mysql -e "FLUSH PRIVILEGES;"
 echo -e "\n${GREEN}[7/9] Setting up SherPanel...${NC}"
 INSTALL_DIR="/var/www/sherpanel"
 
-# If we are running this script from the repo itself (cloned)
-if [ -d "$PWD/app" ] && [ -f "$PWD/artisan" ]; then
+# Ensure we are not trying to copy to self
+if [ "$PWD" != "$INSTALL_DIR" ]; then
     mkdir -p $INSTALL_DIR
-    cp -r . $INSTALL_DIR
-else
-    # Clone if not present (Adjust URL to your actual repo)
-    if [ ! -d "$INSTALL_DIR" ]; then
-        git clone https://github.com/sherif1day-ux/Sherpanel.git $INSTALL_DIR
+    # If we are running this script from the repo itself (cloned)
+    if [ -d "$PWD/app" ] && [ -f "$PWD/artisan" ]; then
+        cp -rT . $INSTALL_DIR
+    else
+        # Clone if not present
+        if [ ! -d "$INSTALL_DIR/.git" ]; then
+            git clone https://github.com/sherif1day-ux/Sherpanel.git $INSTALL_DIR
+        fi
     fi
+else
+    echo "Running inside installation directory. Skipping copy."
 fi
 
 cd $INSTALL_DIR
 
 # Environment Setup
-cp .env.example .env
+cp -n .env.example .env
 sed -i "s/APP_URL=http:\/\/localhost/APP_URL=http:\/\/$DOMAIN/g" .env
+sed -i "s/DB_DATABASE=sherpanel/DB_DATABASE=$DB_NAME/g" .env
 sed -i "s/DB_DATABASE=laravel/DB_DATABASE=$DB_NAME/g" .env
 sed -i "s/DB_USERNAME=root/DB_USERNAME=$DB_USER/g" .env
 sed -i "s/DB_PASSWORD=/DB_PASSWORD=$DB_PASS/g" .env
