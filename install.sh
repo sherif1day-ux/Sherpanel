@@ -110,6 +110,10 @@ sed -i "s/DB_DATABASE=laravel/DB_DATABASE=$DB_NAME/g" .env
 sed -i "s/DB_USERNAME=root/DB_USERNAME=$DB_USER/g" .env
 sed -i "s/DB_PASSWORD=/DB_PASSWORD=$DB_PASS/g" .env
 
+# Install PHP Dependencies
+echo -e "\n${GREEN}[7.5/9] Installing PHP Dependencies...${NC}"
+composer install --no-interaction --optimize-autoloader --no-dev
+
 # Generate Key & Migrate
 echo -e "\n${GREEN}[8/9] Finalizing configuration...${NC}"
 php artisan key:generate
